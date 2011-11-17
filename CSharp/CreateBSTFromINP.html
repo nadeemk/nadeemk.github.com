@@ -1,0 +1,81 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Binary Search</title>
+	<script type="text/javascript" src="../scripts/shCore.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="../styles/shCoreDefault.css"/>
+	<script type="text/javascript" src="../scripts/shBrushJScript.js"></script>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>Create a Binary Search Tree from Inorder and PreOrder Traversal</h1>
+
+<p>
+Recursive Solution 
+<p>
+<pre class="brush: csharp;">
+/// Create a Binary Search Tree from Inorder and PreOrder Traversal - Recursive Solution.
+///
+/// Copyright 2011, Nadeem Khan
+///
+
+
+Node CreateTree(int[] preorder, int[] inorder, int in_start, int in_end, int pre_start, int pre_end)
+{	
+	Node root = new Node(preorder[pre_start]);
+	if(pre_start == pre_end) return root;
+	
+	int in_pos = Array.BinarySearch(inorder, preorder[pre_start]);
+	
+	in_pos  = in_pos - in_start;
+	
+	root.left  = CreateTree(preorder, inorder, in_start  , in_pos - 1, pre_start + 1         , pre_start + in_pos);  
+	root.right = CreateTree(preorder, inorder, in_pos + 1, in_end    , pre_start + in_pos + 1, pre_end           );
+	
+	Console.WriteLine("Root:{0}, Left:{1}, Right{2}", root.data, root.left.data, root.right.data);
+	
+	return root;
+}
+
+
+class Node 
+{
+	public Node left;
+	public Node right;
+	public int data;
+	
+	public Node(int val) 
+	{
+		this.data  = val;
+		this.left  = null;
+		this.right = null;
+	}
+}
+
+void Main()
+{
+	int[] preorder = {10, 7, 6, 8, 15, 12, 17};
+	int[] inorder = {6, 7, 8, 10, 12, 15, 17};
+	Node tree = CreateTree(preorder, inorder, 0, inorder.Length - 1, 0, preorder.Length - 1);
+	ShowTree(tree);
+}
+
+void ShowTree(Node T) 
+{
+	if(T == null) return;
+	
+	Console.WriteLine("Node: {0}", T.data);
+	
+	
+	ShowTree(T.left);
+	ShowTree(T.right);
+}
+
+</pre>
+
+
+
+</html>

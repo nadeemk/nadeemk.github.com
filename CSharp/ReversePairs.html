@@ -1,0 +1,129 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Reverse Pairs of Linked List</title>
+	<script type="text/javascript" src="../scripts/shCore.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="../styles/shCoreDefault.css"/>
+	<script type="text/javascript" src="../scripts/shBrushJScript.js"></script>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>Reverse Pairs of Linked List.</h1>
+
+<p>
+Given a linked list as follow
+
+1->2->3->4->NULL, reverse every pair so that it looks like follows:
+
+2->1->4->3->NULL
+
+Also,
+
+1->2->3->NULL, will look like
+2->1->3->NULL
+
+<p>
+<pre class="brush: csharp;">
+/// Reverse Pairs in a Linked List
+///
+/// Copyright 2011, Nadeem Khan
+///
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Core Algorithm
+// This algorithm works in a recursive fashion. Basically we traverse all the way 
+// to the last pair (or last node in case of odd nodes) and then work our way backwards
+// re-assigning the pointers.
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Node ReversePairs(Node t) 
+{   
+	if(t == null || t.next == null) return t; // Either at last odd node or end.
+	
+	Node startofNextPair = ReversePairs(t.next.next);
+	
+	t.next.next = t;                          // Set second node to point to first.
+	Node startForPreviousPair = t.next;       // Cache the first node in reversed pair.
+	t.next = startofNextPair;                 // Second node in reversed pair points to 
+	                                          // first node from last reversed pair
+	                                          
+	
+	return startForPreviousPair;              // Return first node in reverse pair back.
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Everything below is just driver code for the core 
+// algorithm above. You don't really need to care about
+// it unless you want to copy, run and test it yourself.
+
+class Node 
+{
+	public Node(int val) 
+	{
+		value = val;
+	}
+	
+	public int value {get; set;}
+	public Node next { get; set;}
+}
+
+void Main()
+{
+	Node t = CreateNode(new int[] {1, 2, 3, 4});
+	PrintNodes(t);
+	Node start = ReversePairs(t);
+	PrintNodes(start);
+	
+	t = CreateNode(new int[] {1, 2, 3});
+	PrintNodes(t);
+	start = Pairs(t);
+	PrintNodes(start);
+}
+
+
+// Boiler plate code to print a linked list.
+
+void PrintNodes(Node t) 
+{
+	Console.WriteLine();
+	while(t != null) 
+	{
+		Console.Write(t.value + "->");
+		t = t.next;
+	}
+	
+	Console.Write("NULL");
+}
+
+// Some code to create a linked list.
+
+Node CreateNode(int[] list) 
+{
+	Node start;
+	int count = 0;
+	
+	Node t = new Node(list[count++]);
+	start = t;
+	
+	while(count < list.Length) 
+	{
+		t.next = new Node(list[count++]);
+		t = t.next;
+	}
+	
+	t.next = null;
+	
+	return start;
+}
+
+</pre>
+
+</html>

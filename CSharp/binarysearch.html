@@ -1,0 +1,64 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Binary Search</title>
+	<script type="text/javascript" src="../scripts/shCore.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCSharp.js"></script>
+	<link type="text/css" rel="stylesheet" href="../styles/shCoreDefault.css"/>
+	<script type="text/javascript" src="../scripts/shBrushJScript.js"></script>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>Binary Search</h1>
+
+<p>
+Recursive Solution 
+<p>
+<pre class="brush: csharp;">
+/// Binary Search - Recursive Solution.
+///
+/// Copyright 2011, Nadeem Khan
+///
+
+
+/// This method is the bootstrap method for performing
+/// binary search in recursive fashion. Use this method
+/// to kick off binary search for an integer on an array 
+/// of integers.
+
+int binary_search(int x, int[] a) 
+{
+	if(a == null || a.Length == 0) return -1;
+	
+	return doSearch(x, a, 0, a.Length-1);	
+}
+
+/// This method does the actual work of searching for 
+/// the element in the array, in a recursive fashion.
+
+int doSearch(int x, int[] a, int l, int u) 
+{
+	if( l > u ) return -1;
+	
+	int mid = l + ( u - l ) / 2;
+	
+	if( a[mid] == x ) 
+	{
+		return mid;
+	}
+	if( a[mid] > x ) 
+	{
+		return doSearch(x, a, l, mid - 1);
+	}
+	else 
+	{
+		return doSearch(x, a, mid + 1, u);
+	}
+}
+</pre>
+
+
+
+</html>
